@@ -1,1 +1,4 @@
-# otus_qa_course
+otus_qa_course
+
+
+Создан проект, добавлен readme
