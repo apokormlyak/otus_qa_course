@@ -1,13 +1,11 @@
-from Figure import Figure
+from Rectangle import Rectangle
 import math
 
 
-class Square(Figure):
+class Square(Rectangle):
     def __init__(self, a):
         self.name = "square"
-        super().__init__(self.name)
         self._a = a
-        self._b = self._c = self._d = self._a
 
     @property
     def area(self):

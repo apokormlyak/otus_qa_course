@@ -5,7 +5,6 @@ import math
 class Circle(Figure):
     def __init__(self, r):
         self.name = "circle"
-        super().__init__(self.name)
         self._r = r
 
     @property

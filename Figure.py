@@ -4,7 +4,7 @@ import logging
 
 class Figure:
     def __init__(self, name):
-        self._name = name
+        self.name = name
 
     @abstractmethod
     def area(self) -> float:

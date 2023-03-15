@@ -8,7 +8,6 @@ import logging
 class Triangle(Figure):
     def __init__(self, a, b, c):
         self.name = "triangle"
-        super().__init__(self.name)
         self._a = a
         self._b = b
         self._c = c

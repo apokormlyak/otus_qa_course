@@ -5,19 +5,6 @@ from Square import Square
 from Circle import Circle
 
 
-@pytest.fixture(scope='session')
-def start_stop_service():
-    print('\nstart service')
-    yield
-    print('\nstop service')
-
-
-@pytest.fixture(autouse=True)
-def cleanup():
-    yield
-    print('\nCleanup')
-
-
 class TestFigure:
 
     @pytest.mark.parametrize(
@@ -90,31 +77,31 @@ class TestFigure:
         assert rectangle.name == name
 
     @pytest.mark.parametrize(
-        'a, area', [(7, 153.94), (0, 0)]
+        'r, area', [(7, 153.94), (0, 0)]
     )
-    def test_circle_area(self, a, area):
-        circle = Circle(a)
+    def test_circle_area(self, r, area):
+        circle = Circle(r)
         assert circle.area == area
 
     @pytest.mark.parametrize(
-        'a, perimeter', [(10, 62.83), (0, 0)]
+        'r, perimeter', [(10, 62.83), (0, 0)]
     )
-    def test_circle_perimeter(self, a, perimeter):
-        circle = Circle(a)
+    def test_circle_perimeter(self, r, perimeter):
+        circle = Circle(r)
         assert circle.perimeter == perimeter
 
     @pytest.mark.parametrize(
-        'a, diameter', [(10, 20), (0, 0)]
+        'r, diameter', [(10, 20), (0, 0)]
     )
-    def test_circle_diameter(self, a, diameter):
-        circle = Circle(a)
+    def test_circle_diameter(self, r, diameter):
+        circle = Circle(r)
         assert circle.diameter == diameter
 
     @pytest.mark.parametrize(
-        'a, name', [(10, "circle"), (0, "circle")]
+        'r, name', [(10, "circle"), (0, "circle")]
     )
-    def test_circle_name(self, a, name):
-        circle = Circle(a)
+    def test_circle_name(self, r, name):
+        circle = Circle(r)
         assert circle.name == name
 
     @pytest.mark.parametrize(
