@@ -9,5 +9,3 @@ def get_path(filename: str) -> str:
 
 BOOKS = get_path(filename='books.csv')
 USERS = get_path(filename='users.json')
-
-
