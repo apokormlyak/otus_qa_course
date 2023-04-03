@@ -11,25 +11,25 @@ def test_list_breweries():
     jsonschema.validate(instance=response.json(), schema=Brewery.schema)
 
 
-@pytest.mark.parametrize('query_parameter, value', [('by_city', 'san_diego'), ('by_city', 'austin')])
-def test_filter_by_city(query_parameter, value):
-    response = requests.get(url=BREWERY_BASE_URL + f'?{query_parameter}={value}')
+@pytest.mark.parametrize('value', ['san_diego', 'austin'])
+def test_filter_by_city(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_city={value}')
     assert response.status_code == 200
     for brewery in response.json():
         assert value.replace('_', ' ') in brewery['city'].lower()
 
 
-@pytest.mark.parametrize('query_parameter, value', [('by_name', 'cooper'), ('by_name', 'heineken')])
-def test_filter_by_name(query_parameter, value):
-    response = requests.get(url=BREWERY_BASE_URL + f'?{query_parameter}={value}')
+@pytest.mark.parametrize('value', ['cooper', 'heineken'])
+def test_filter_by_name(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_name={value}')
     assert response.status_code == 200
     for brewery in response.json():
         assert value in brewery['name'].lower()
 
 
-@pytest.mark.parametrize('query_parameter, value', [('by_state', 'new_york'), ('by_state', 'california')])
-def test_filter_by_name(query_parameter, value):
-    response = requests.get(url=BREWERY_BASE_URL + f'?{query_parameter}={value}')
+@pytest.mark.parametrize('value', ['new_york', 'california'])
+def test_filter_by_name(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_state={value}')
     assert response.status_code == 200
     for brewery in response.json():
         assert value.replace('_', ' ') in brewery['state'].lower()

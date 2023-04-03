@@ -17,8 +17,10 @@ def test_all_breeds():
     assert len(by_alphabet) == 1
     assert by_alphabet == {True}
 
-    with open('breeds_list.json', 'w') as f:
-        json.dump(response.json(), f, indent=4)
+    with open('final_breeds_list.json', 'r') as f:
+        final_breeds_list = json.load(f)
+
+    assert response.json() == final_breeds_list
 
 
 def test_random_image():
@@ -34,22 +36,30 @@ def test_random_image_list(path_parameter, images_count):
     jsonschema.validate(instance=response.json(), schema=RandomImageList.schema)
     assert len(response.json()['message']) == images_count
     for dog in response.json()['message']:
-        assert Path(dog).suffix == '.jpg'
+        assert dog.endswith('.jpg')
 
 
 @pytest.mark.parametrize('breed', breeds_list)
 def test_image_by_breed(breed):
     response = requests.get(url=BREED_API_BASE_URL + f'{breed}/images')
-    response_random = requests.get(url=BREED_API_BASE_URL + f'{breed}/images/random')
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize('breed', breeds_list)
+def test_image_by_breed_random(breed):
+    response_random = requests.get(url=BREED_API_BASE_URL + f'{breed}/images/random')
     assert response_random.status_code == 200
 
 
 @pytest.mark.parametrize('breed, sub_breed', sub_breeds_list)
 def test_image_by_sub_breed(breed, sub_breed):
     response = requests.get(url=BREED_API_BASE_URL + f'{breed}/{sub_breed[0]}/images')
-    response_random = requests.get(url=BREED_API_BASE_URL + f'{breed}/{sub_breed[0]}/images/random')
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize('breed, sub_breed', sub_breeds_list)
+def test_image_by_sub_breed_random(breed, sub_breed):
+    response_random = requests.get(url=BREED_API_BASE_URL + f'{breed}/{sub_breed[0]}/images/random')
     assert response_random.status_code == 200
 
 
