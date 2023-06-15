@@ -1,0 +1,7 @@
+Отчёт о состоянии системы: 
+Пользователи системы: avahi, syslog, USER, kernoops, root, postgres, redis, whoopsie, systemd+, www-data, colord, rtkit, alisapo+, message+
+Процессов запущено: : 467
+Процессов  CPU используется: 66.40000000000003 %
+Всего памяти используется: 134.1999999999999 mb
+Больше всего памяти использует: /snap/pycharm-community/332/jbr/bin/java
+Больше всего CPU использует: /snap/pycharm-community/332/jbr/bin/java
