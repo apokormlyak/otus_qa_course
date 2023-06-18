@@ -17,6 +17,7 @@ def log_parser():
     )
     request_data = defaultdict(str)
     top_longest_list = []
+    total_requests = 0
     with open(args.file, 'r') as f:
         for line in f:
             ip_match = re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
@@ -30,8 +31,11 @@ def log_parser():
                     ip_data[ip][method.group()] += 1
                     request_data['ip'] = ip
                     request_data['method'] = method.group()
+                    total_requests += 1
                 if req_time is not None:
                     request_data['duration'] = req_time.group()
+                else:
+                    request_data['duration'] = '0'
                 if req_date is not None:
                     request_data['date'] = req_date.group()
                 if url is not None:
@@ -47,7 +51,7 @@ def log_parser():
             'top_ips': get_top_ips(ip_data)
         }
         total_requests = {
-            'total_requests': get_total_requests(ip_data.values())
+            'total_requests': total_requests
         }
         top_longest = {
             'top_longest': get_top_longest(top_longest_list)
@@ -84,17 +88,6 @@ def get_top_ips(request_data: defaultdict) -> dict:
     result_top_ips = sorted_ips[:3]
     result_top_ips = {k: v for k, v in result_top_ips}
     return result_top_ips
-
-
-def get_total_requests(request_data) -> int:
-    """
-    Собирается информация по общему количеству выполненных запросов
-    """
-    total_requests = 0
-    for el in request_data:
-        for k, v in el.items():
-            total_requests += v
-    return total_requests
 
 
 def get_top_longest(top_longest_list: list) -> list[dict]:
