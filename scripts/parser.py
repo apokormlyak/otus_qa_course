@@ -1,5 +1,6 @@
 from functools import reduce
 from subprocess import PIPE, Popen
+from collections import defaultdict
 
 
 def collect_system_info(cmd):
@@ -13,8 +14,16 @@ def get_max(process_list, data_list):
     return list_zipped[0][0]
 
 
+def get_users_processes(process_by_user: list):
+    users_process = defaultdict(int)
+    for user in process_by_user:
+        users_process[user] += 1
+    return dict(users_process)
+
+
 def parser():
-    user_list = set(collect_system_info('ps aux | tr -s " " | cut -d " " -f1'))
+    users = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f1'))
+    user_list = set(users)
     pid_list = set(collect_system_info('ps aux | tr -s " " | cut -d " " -f2'))
     cpu_list = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f3'))
     mem_list = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f4'))
@@ -27,11 +36,13 @@ def parser():
 
     process_mem = get_max(process_list, mem_list)
     process_cpu = get_max(process_list, cpu_list)
+    process_by_users = get_users_processes(users)
 
     with open('parsed_data.txt', 'w') as f:
         f.write("Отчёт о состоянии системы: \n")
         f.write(f'Пользователи системы: {", ".join(user_list)}\n')
-        f.write(f'Процессов запущено: : {len(pid_list)}\n')
+        f.write(f'Процессов запущено: {len(pid_list)}\n')
+        f.write(f'Пользовательских процессов: {", ".join(f"{k}: {v}" for k, v in process_by_users.items())}\n')
         f.write(f'Процессов  CPU используется: {sum_cpu} %\n')
         f.write(f'Всего памяти используется: {mem_sum} mb\n')
         f.write(f'Больше всего памяти использует: {process_mem}\n')

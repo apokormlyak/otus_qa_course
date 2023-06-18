@@ -1,7 +1,8 @@
 Отчёт о состоянии системы: 
-Пользователи системы: whoopsie, root, alisapo+, rtkit, systemd+, message+, syslog, www-data, avahi, kernoops, colord, openvpn, postgres, redis
-Процессов запущено: : 433
-Процессов  CPU используется: 28.8 %
-Всего памяти используется: 95.19999999999989 mb
+Пользователи системы: syslog, root, colord, www-data, postgres, avahi, alisapo+, message+, kernoops, redis, rtkit, systemd+, whoopsie, openvpn
+Процессов запущено: 425
+Пользовательских процессов: root: 243, systemd+: 2, message+: 1, syslog: 1, colord: 1, redis: 1, rtkit: 1, whoopsie: 1, kernoops: 2, alisapo+: 155, openvpn: 5, www-data: 3, avahi: 2, postgres: 7
+Процессов  CPU используется: 30.400000000000006 %
+Всего памяти используется: 100.2 mb
 Больше всего памяти использует: /opt/google/chrome/chrome
 Больше всего CPU использует: /snap/pycharm-community/332/jbr/bin/java
