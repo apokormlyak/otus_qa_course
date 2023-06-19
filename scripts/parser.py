@@ -22,12 +22,12 @@ def get_users_processes(process_by_user: list):
 
 
 def parser():
-    users = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f1'))
+    users = collect_system_info('ps aux | tr -s " " | cut -d " " -f1')
     user_list = set(users)
     pid_list = set(collect_system_info('ps aux | tr -s " " | cut -d " " -f2'))
-    cpu_list = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f3'))
-    mem_list = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f4'))
-    process_list = list(collect_system_info('ps aux | tr -s " " | cut -d " " -f11'))
+    cpu_list = collect_system_info('ps aux | tr -s " " | cut -d " " -f3')
+    mem_list = collect_system_info('ps aux | tr -s " " | cut -d " " -f4')
+    process_list = collect_system_info('ps aux | tr -s " " | cut -d " " -f11')
 
     cpu_list2 = [float(x) for x in cpu_list[1:]]
     sum_cpu = reduce((lambda x, y: x + y), cpu_list2)
