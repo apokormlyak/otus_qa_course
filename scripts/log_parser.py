@@ -4,11 +4,16 @@ import json
 from collections import defaultdict
 
 parser = argparse.ArgumentParser(description='Log file')
-parser.add_argument('-f', dest='file', action='store', help='Path to lod file',
+parser.add_argument('-f', dest='file', action='store', help='Name of log file',
+                    default='access.log')
+parser.add_argument('-d', dest='directory', action='store', help='Path to log file',
                     default='/home/alisapokormlyak/Desktop/'
-                            'otus_automation/otus_qa_course/logs/'
-                            'access.log')
+                            'otus_automation/otus_qa_course/logs/')
 args = parser.parse_args()
+
+
+def get_log_file():
+    return args.directory + args.file
 
 
 def log_parser():
@@ -18,7 +23,7 @@ def log_parser():
     request_data = defaultdict(str)
     top_longest_list = []
     total_requests = 0
-    with open(args.file, 'r') as f:
+    with open(get_log_file(), 'r') as f:
         for line in f:
             ip_match = re.search(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", line)
             if ip_match is not None:
