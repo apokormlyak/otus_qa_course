@@ -25,12 +25,12 @@ def get_response_body(client_message, addr):
         print(header_info)
         response_body[header_info[0]] = header_info[1]
 
-    return response_body
+    return dict(response_body)
 
 
 def echo_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('192.168.1.9', 0))
+        s.bind(('0.0.0.0', 0))
         s.listen(1)
         print(f'start connection on {s.getsockname()}, pid: {os.getpid()}')
         print(f'server {s}')
@@ -45,22 +45,26 @@ def echo_server():
                     print(f'Получено сообщение: \n {message}')
                     response_body = get_response_body(message, addr)
 
-                    headers = {
-                        'Content-Type': 'application/json',
-                        'Content-Length': len(str(response_body))
-                    }
-                    body = dict(response_body)
+                    status_line = f'HTTP/1.1 {response_body["Response Status"]}'
+
+                    headers = '\r\n'.join([
+                        status_line,
+                        'Content-Type: application/json',
+                        f'Content-Length: {len(str(response_body))}'
+                    ])
+
+                    body = str(response_body)
                     print('Ответ клиенту')
-                    send_data = {}
-                    send_data.update(headers)
-                    send_data.update(body)
-                    print(send_data)
+                    send_data = '\r\n\r\n'.join([
+                        headers,
+                        body
+                    ])
                     bts = conn.send(str(send_data).encode('utf-8'))
                 else:
                     print('Нет сообщения от клиента')
                     break
             print('Закрываю соединение')
-            s.close()
+            conn.close()
 
 
 if __name__ == '__main__':
