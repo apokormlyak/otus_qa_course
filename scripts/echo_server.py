@@ -14,12 +14,12 @@ def get_response_body(client_message, addr):
     print(message_list)
     if len(status_code) == 2:
         try:
-            status = HTTPStatus(status_code[1])
-            response_body['Response Status'] = f'{status.name}, {status.value}'
+            status = HTTPStatus(int(status_code[1]))
+            response_body['Response Status'] = f'{status.value} {status.name}'
         except ValueError as e:
-            response_body['Response Status'] = '200, OK'
+            response_body['Response Status'] = '200 OK'
     else:
-        response_body['Response Status'] = '200, OK'
+        response_body['Response Status'] = '200 OK'
     for header in message_list[1:-2]:
         header_info = header.split(': ')
         print(header_info)
@@ -59,6 +59,7 @@ def echo_server():
                         headers,
                         body
                     ])
+                    print(send_data)
                     bts = conn.send(str(send_data).encode('utf-8'))
                 else:
                     print('Нет сообщения от клиента')
